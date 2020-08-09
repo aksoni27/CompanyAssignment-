@@ -1,7 +1,7 @@
 var http = require('http');
 http.createServer(function (req, res) {
 
-  res.writeHead(200, { 'Content-Type': 'text/html' });
+  res.writeHead(200, { 'Content-Type': 'application/json' });
   var fs = require('fs');
   //const { json } = require("express");
   var file = 'tales.txt';
@@ -14,7 +14,7 @@ http.createServer(function (req, res) {
 
 
     var finalWordsArray = sortByCount(wordsMap);
-    var newArray = [];
+    const newArray = [];
     let n = 10;
 
     for (i = 0; i < n; i++) {
@@ -22,12 +22,12 @@ http.createServer(function (req, res) {
 
     }
     console.log(newArray)
-    res.write(JSON.stringify({ newArray }));
-    res.end();
+    // res.write(JSON.stringify({ newArray }));
+     res.end(newArray)///sending data to server
     
 
   });
-
+ 
 
 
 }).listen(8080);

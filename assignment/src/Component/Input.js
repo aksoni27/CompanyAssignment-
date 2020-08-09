@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import DataTable from './DataTable'
 
 class Input extends React.Component {
   constructor(props) {
@@ -17,9 +16,17 @@ class Input extends React.Component {
   }
   async componentDidMount() {
     const url = "http://localhost:8080";
-    const response= await fetch(url);
-    const newData = await response.json();
-    console.log(newData);
+    const response= await fetch(url,{
+      mode:'no-cors',
+      headers:{
+        
+        'Content-Type':'application/json'
+      }
+    }).then(function(res){
+      let newdata=JSON.stringify(res.data)
+      return newdata
+
+    });
   }
   handleSubmit = async (e) => {
     e.preventDefault()
@@ -31,18 +38,18 @@ class Input extends React.Component {
     }
 
   }
-  renderTableData() {
-    return this.state.newData.map((info, index) => {
-       const { id, name, total} = info //destructuring
-       return (
-          <tr key={id}>
-             <td>{id}</td>
-             <td>{name}</td>
-             <td>{total}</td>
-          </tr>
-       )
-    })
- }
+//   renderTableData() {
+//     return this.state.newData.map((info, index) => {
+//        const { id, name, total} = info //destructuring
+//        return (
+//           <tr key={id}>
+//              <td>{id}</td>
+//              <td>{name}</td>
+//              <td>{total}</td>
+//           </tr>
+//        )
+//     })
+//  }
 
 
   render() {
@@ -65,7 +72,7 @@ class Input extends React.Component {
           </thead>
           <tbody>
             
-            {this.renderTableData()}
+            {/* {this.renderTableData()} */}
           </tbody>
         </table>
 
