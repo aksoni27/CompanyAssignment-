@@ -1,13 +1,10 @@
-var express = require("express");
-var router = express.Router();
+var http = require('http');
+http.createServer(function (req, res) {
 
-var fs = require('fs');
-const { json } = require("express");
-var file = 'tales.txt';
-
-
-router.post('/',(req,res)=>{
-  // read file from current directory
+  res.writeHead(200, {'Content-Type': 'text/html'});
+  var fs = require('fs');
+//const { json } = require("express");
+var file = 'api/routes/tales.txt';
 fs.readFile(file, 'utf8', function (err, data) {
 
   if (err) throw err;
@@ -17,33 +14,24 @@ fs.readFile(file, 'utf8', function (err, data) {
 
 
   var finalWordsArray = sortByCount(wordsMap);
-
-  console.log(finalWordsArray);
-  console.log('The word "' + finalWordsArray[0].name + '" appears the most in the file ' +
-    finalWordsArray[0].total + ' times');
    var newArray=[];
-    finalWordsArray.forEach((array)=>{
+   let n=10;
+   
       for(i=0;i<n;i++){
-         newArray.push(array)
+         newArray.push(finalWordsArray[i]);
 
       }
-      console.log(newArray)
-    })
-    // router.get("/", function(req, res, next) {
-    //     res.send("API is working properly");
-    // });
-  /*
-    output:
-    [ { name: 'he', total: 10 },
-      { name: 'again', total: 7 },
-      { name: 'away', total: 7 },
-      ... ]
-    The word "he" appears the most in the file 10 times
-  */
-
+  res.write(JSON.stringify({newArray}));
+  res.end();
+      //console.log(newArray)
+     
 });
 
-})
+
+  
+}).listen(8080);
+
+
 
 
 
@@ -99,4 +87,3 @@ function sortByCount (wordsMap) {
 
 
 
-module.exports = router;

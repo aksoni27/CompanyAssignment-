@@ -1,6 +1,5 @@
-import React,{Component} from 'react';
-import Table from './Table';
-import axios from 'axios';
+import React, { Component } from 'react';
+import DataTable from './DataTable'
 //import SearchBar from './SearchBar';
 //import ProductTable from './ProductTable';
 class Input extends React.Component {
@@ -15,44 +14,75 @@ class Input extends React.Component {
   }
 
   handleChange(event) {
-    this.setState({value: event.target.value});
+    this.setState({ value: event.target.value });
   }
-  // componentDidMount() {
-  //   axios.g('http://localhost:9000/testAPI')
-  //     .then(res => {
-  //       const data = res.data.data; // get the data array instead of object
-  //       this.setState({ data, loading: false });
-  //     })
-  //     .catch(err => { // log request error and prevent access to undefined state
-  //       this.setState({ loading: false, error: true });
-  //       console.error(err); 
-  //     })
-  // }
-  handleSubmit=async(e)=>{
+  async componentDidMount() {
+    const url = "http://localhost:8080";
+    fetch(url)
+    .then((response)=>response.json())
+    const newdata = await response.json();
+    console.log(newData);
+  }
+  handleSubmit = async (e) => {
     e.preventDefault()
-    const data={
-      value:this.state.value
+    const data = {
+      value: this.state.value
     }
-    if(!data.value ){
+    if (!data.value) {
       window.alert('Fields are missing')
     }
-    
+
   }
-  
-    render() {
+  dataTable() {
       return (
-        <div className="Container">
+        {
+            
+                
+              <tr>
+              <td>
+                  
+              </td>
+              <td>
+                  {newArray.name}
+              </td>
+              <td>
+                  {newArray.total}
+              </td>
+              </tr>
+              </div>
+              )
+            )
+      }
           
-          <form onSubmit={this.handleSubmit}>  
+      );
+  
+}
+
+  render() {
+    return (
+      <div className="Container">
+
+        <form onSubmit={this.handleSubmit}>
           <label>Input  {":  "}
-          <input type="tel" name="telephone" placeholder="Enter value of N"  onChange={this.handleChange} />
+            <input type="tel" name="telephone" placeholder="Enter value of N" onChange={this.handleChange} />
           </label>
           <input type="submit" value="Submit" />
-          </form>
-          <Table />
-          
-        </div>
-      );
-    }
+        </form>
+        <table className="table table-striped table-dark">
+          <thead className="thead-dark">
+            <tr>
+              <td>ID</td>
+              <td>Name</td>
+              <td>Total</td>
+            </tr>
+          </thead>
+          <tbody>
+            {this.dataTable()}
+          </tbody>
+        </table>
+
+      </div>
+    );
   }
-  export default Input
+}
+export default Input
