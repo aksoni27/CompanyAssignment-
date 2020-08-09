@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import DataTable from './DataTable'
-//import SearchBar from './SearchBar';
-//import ProductTable from './ProductTable';
+
 class Input extends React.Component {
   constructor(props) {
     super(props);
@@ -18,9 +17,8 @@ class Input extends React.Component {
   }
   async componentDidMount() {
     const url = "http://localhost:8080";
-    fetch(url)
-    .then((response)=>response.json())
-    const newdata = await response.json();
+    const response= await fetch(url);
+    const newData = await response.json();
     console.log(newData);
   }
   handleSubmit = async (e) => {
@@ -33,30 +31,19 @@ class Input extends React.Component {
     }
 
   }
-  dataTable() {
-      return (
-        {
-            
-                
-              <tr>
-              <td>
-                  
-              </td>
-              <td>
-                  {newArray.name}
-              </td>
-              <td>
-                  {newArray.total}
-              </td>
-              </tr>
-              </div>
-              )
-            )
-      }
-          
-      );
-  
-}
+  renderTableData() {
+    return this.state.newData.map((info, index) => {
+       const { id, name, total} = info //destructuring
+       return (
+          <tr key={id}>
+             <td>{id}</td>
+             <td>{name}</td>
+             <td>{total}</td>
+          </tr>
+       )
+    })
+ }
+
 
   render() {
     return (
@@ -77,7 +64,8 @@ class Input extends React.Component {
             </tr>
           </thead>
           <tbody>
-            {this.dataTable()}
+            
+            {this.renderTableData()}
           </tbody>
         </table>
 
